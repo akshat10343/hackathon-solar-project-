@@ -51,6 +51,15 @@ const styles = {
     fontSize: "1.1rem",
     fontWeight: "bold",
   },
+  downloadButton: {
+    padding: "10px 20px",
+    fontSize: "16px",
+    backgroundColor: "#28a745",
+    color: "white",
+    border: "none",
+    borderRadius: "5px",
+    cursor: "pointer",
+  }  
 };
 
 export default HomePage;
