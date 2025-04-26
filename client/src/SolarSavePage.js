@@ -223,7 +223,7 @@ function SolarSavePage() {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)",
+    background: "linear-gradient(to left, #fceabb, #f8b500)",
     padding: "2rem",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     textAlign: "center",
@@ -287,10 +287,10 @@ const styles = {
   },
   resultBox: {
     marginTop: "2rem",
-    backgroundColor: "white",
+    backgroundColor: "#FCE5AE",
     padding: "2rem",
     borderRadius: "10px",
-    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+    boxShadow: "1px 4px 15px rgba(0, 0, 0, 0.1)",
     maxWidth: "600px",
     margin: "2rem auto",
   },

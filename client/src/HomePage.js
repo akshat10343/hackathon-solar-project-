@@ -18,6 +18,13 @@ function HomePage() {
 }
 
 const styles = {
+  page: {
+    minHeight: "100vh",
+    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    padding: "3rem",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    textAlign: "center",
+  },
   container: {
     minHeight: "90vh",
     display: "flex",
@@ -29,10 +36,10 @@ const styles = {
     color: "#333",
   },
   content: {
-    backgroundColor: "rgba(255,255,255,0.85)",
+    backgroundColor: "linear-gradient(to left, #fceabb, #f8b500)",
     padding: "3rem",
-    borderRadius: "10px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+    borderRadius: "20px",
+    boxShadow: "0 10px 15px rgba(0,0,0,0.15)",
   },
   heading: {
     fontSize: "2.5rem",

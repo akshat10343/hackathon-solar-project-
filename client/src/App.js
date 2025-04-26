@@ -6,24 +6,27 @@ import DashboardPage from "./DashboardPage";
 import './index.css';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import AboutPage from "./AboutPage";
+
 
 function App() {
   return (
     <Router>
       <div style={styles.container}>
-        <nav style={styles.navbar}>
-          <h1 style={styles.logo}>SolarSave 🌞</h1>
-          <ul style={styles.navLinks}>
-            <li><Link to="/" style={styles.link}>Home</Link></li>
-            <li><Link to="/solar" style={styles.link}>Solar Calculator</Link></li>
+      <nav style={styles.navbar}>
+        <h1 style={styles.logo}>SolarSave 🌞</h1>
+        <ul style={styles.navLinks}>
+          <li><Link to="/" style={styles.link}>Home</Link></li>
+          <li><Link to="/solar" style={styles.link}>Solar Calculator</Link></li>
             <li><Link to="/dashboard" style={styles.link}>Dashboard</Link></li>
-          </ul>
-        </nav>
-
+          <li><Link to="/about" style={styles.link}>About Us</Link></li>
+        </ul>
+      </nav>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/solar" element={<SolarSavePage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
 
         <ToastContainer />
@@ -35,17 +38,20 @@ function App() {
 const styles = {
   container: {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    background: "linear-gradient(to right, #fceabb, #f8b500)",
+    background: "linear-gradient(to left, #fceabb, #f8b500)",
     minHeight: "100vh",
   },
   navbar: {
+    position: "sticky",
+    top: 0,
+    zIndex: 1000,
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     padding: "1rem 2rem",
-    backgroundColor: "rgba(255, 255, 255, 0.8)",
-    boxShadow: "0px 4px 10px rgba(0,0,0,0.1)"
-  },
+    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+  },  
   logo: {
     fontSize: "1.5rem",
     fontWeight: "bold",
