@@ -14,7 +14,6 @@ app.get("/", (req, res) => {
 
 const axios = require("axios");
 
-// Add state → electricity price lookup
 const stateElectricityRates = {
   AL: 0.14, AK: 0.22, AZ: 0.13, AR: 0.11, CA: 0.28, 
   CO: 0.13, CT: 0.25, DE: 0.17, FL: 0.14, GA: 0.13, 
@@ -29,7 +28,7 @@ const stateElectricityRates = {
 };
 
 app.post("/solar", async (req, res) => {
-  const { location, lat, lon } = req.body;
+  const { location, lat, lon, systemSizeKW } = req.body;
 
   if (!location && (!lat || !lon)) {
     return res.status(400).json({ error: "Location or coordinates are required." });
@@ -43,11 +42,9 @@ app.post("/solar", async (req, res) => {
     let stateCode = null;
 
     if (lat && lon) {
-      // User used Geolocation
       latitude = lat;
       longitude = lon;
     } else {
-      // User typed a city/zip
       const geocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${encodeURIComponent(location)}&key=${openCageKey}`;
       const geoResponse = await axios.get(geocodeUrl);
 
@@ -68,7 +65,6 @@ app.post("/solar", async (req, res) => {
     }
 
     if (!stateCode && lat && lon) {
-      // If user used Geolocation, need to reverse geocode to find state
       const reverseGeocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${openCageKey}`;
       const reverseGeoResponse = await axios.get(reverseGeocodeUrl);
       if (reverseGeoResponse.data.results.length) {
@@ -82,7 +78,6 @@ app.post("/solar", async (req, res) => {
 
     const electricityRate = stateElectricityRates[stateCode];
 
-    // Now get solar data
     const nrelUrl = `https://developer.nrel.gov/api/solar/solar_resource/v1.json?api_key=${nrelKey}&lat=${latitude}&lon=${longitude}`;
     const solarResponse = await axios.get(nrelUrl);
 
@@ -93,29 +88,29 @@ app.post("/solar", async (req, res) => {
       return res.status(400).json({ error: "Solar data unavailable for your location." });
     }
 
-    // Calculate Savings
-    const systemSizeKW = 5; // Assume 5kW system
-    const panelEfficiency = 0.8; // Assume 80% panel performance
-    const kWhPerYear = systemSizeKW * avgSunHoursPerDay * 365 * panelEfficiency;
-    const kgCO2PerKWh = 0.85;
-    const kgCO2SavedPerYear = kWhPerYear * kgCO2PerKWh; // total kg CO2 saved
-    const treesPlantedEquivalent = (kgCO2SavedPerYear / 21).toFixed(1); // 1 tree absorbs ~21 kg CO2/year
-    const carsTakenOffRoadEquivalent = (kgCO2SavedPerYear / 4600).toFixed(2); // 1 car emits ~4600 kg/year
+    const userSystemSizeKW = systemSizeKW || 5; // Default to 5kW if missing
+    const panelEfficiency = 0.8; // Assume 80% efficiency real-world
 
-    const savingsPerYear = (kWhPerYear * electricityRate).toFixed(2); // 2 decimals
+    const kWhPerYear = userSystemSizeKW * avgSunHoursPerDay * 365 * panelEfficiency;
+    const savingsPerYear = (kWhPerYear * electricityRate).toFixed(2);
+
+    const kgCO2PerKWh = 0.85;
+    const kgCO2SavedPerYear = kWhPerYear * kgCO2PerKWh;
+    const treesPlantedEquivalent = (kgCO2SavedPerYear / 21).toFixed(1);
+    const carsTakenOffRoadEquivalent = (kgCO2SavedPerYear / 4600).toFixed(2);
 
     res.json({
       location: resolvedLocation,
       lat: latitude,
       lon: longitude,
+      systemSizeKW: userSystemSizeKW,
       avgSunHoursPerDay,
       estimatedSavingsPerYear: `$${savingsPerYear}`,
       electricityRate: `$${electricityRate}/kWh`,
       co2OffsetPerYear: `${kgCO2SavedPerYear.toFixed(0)} kg of CO₂ saved per year`,
       treesPlantedEquivalent,
       carsTakenOffRoadEquivalent
-    });reet
-    
+    });
 
   } catch (error) {
     console.error("Error in /solar route:", error.message);

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 
 function SolarSavePage() {
   const [location, setLocation] = useState("");
+  const [systemSize, setSystemSize] = useState(5); // Default 5kW system
   const [solarData, setSolarData] = useState(null);
   const [message, setMessage] = useState("");
 
@@ -13,7 +14,7 @@ function SolarSavePage() {
       toast.error("⚠️ Please enter a valid location.");
       return;
     }
-    fetchSolarData({ location });
+    fetchSolarData({ location, systemSizeKW: systemSize });
   };
 
   const handleUseMyLocation = () => {
@@ -26,7 +27,7 @@ function SolarSavePage() {
       async (position) => {
         const lat = position.coords.latitude;
         const lon = position.coords.longitude;
-        fetchSolarData({ lat, lon });
+        fetchSolarData({ lat, lon, systemSizeKW: systemSize });
       },
       (error) => {
         console.error(error);
@@ -64,6 +65,21 @@ function SolarSavePage() {
           onChange={(e) => setLocation(e.target.value)}
           style={styles.input}
         />
+        <div style={styles.dropdownContainer}>
+          <label htmlFor="systemSize" style={styles.dropdownLabel}>
+            System Size:
+          </label>
+          <select
+            id="systemSize"
+            value={systemSize}
+            onChange={(e) => setSystemSize(parseInt(e.target.value))}
+            style={styles.select}
+          >
+            <option value={3}>Small (3 kW)</option>
+            <option value={5}>Standard (5 kW)</option>
+            <option value={10}>Large (10 kW)</option>
+          </select>
+        </div>
         <button type="submit" style={styles.button}>
           Get Solar Data
         </button>
@@ -81,6 +97,7 @@ function SolarSavePage() {
           <p><strong>Latitude:</strong> {solarData.lat}</p>
           <p><strong>Longitude:</strong> {solarData.lon}</p>
           <p><strong>Average Sun Hours/Day:</strong> {solarData.avgSunHoursPerDay} ☀️</p>
+          <p><strong>System Size Selected:</strong> {solarData.systemSizeKW} kW</p>
           <p><strong>Electricity Rate:</strong> {solarData.electricityRate}</p>
           <p><strong>Estimated Annual Savings:</strong> {solarData.estimatedSavingsPerYear}</p>
 
@@ -118,6 +135,21 @@ const styles = {
     border: "1px solid #ccc",
     borderRadius: "5px",
   },
+  dropdownContainer: {
+    display: "inline-block",
+    marginLeft: "10px",
+  },
+  dropdownLabel: {
+    marginRight: "5px",
+    fontSize: "16px",
+    color: "#333",
+  },
+  select: {
+    padding: "10px",
+    fontSize: "16px",
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+  },
   button: {
     padding: "10px 20px",
     fontSize: "16px",
@@ -126,6 +158,7 @@ const styles = {
     border: "none",
     borderRadius: "5px",
     cursor: "pointer",
+    marginTop: "10px",
   },
   locationButton: {
     marginTop: "1rem",
@@ -150,7 +183,7 @@ const styles = {
     boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
     maxWidth: "600px",
     margin: "2rem auto",
-  }
+  },
 };
 
 export default SolarSavePage;
