@@ -4,6 +4,8 @@ import HomePage from "./HomePage";
 import SolarSavePage from "./SolarSavePage";
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import AboutPage from "./AboutPage";
+
 
 function App() {
   return (
@@ -14,12 +16,14 @@ function App() {
           <ul style={styles.navLinks}>
             <li><Link to="/" style={styles.link}>Home</Link></li>
             <li><Link to="/solar" style={styles.link}>Solar Calculator</Link></li>
+            <li><Link to="/about" style={styles.link}>About Us</Link></li> 
           </ul>
         </nav>
 
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/solar" element={<SolarSavePage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
 
         <ToastContainer />
