@@ -11,3 +11,66 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/* ─── GLOBAL VARIABLES & BASE STYLES ───────────────────────────────── */
+
+:root {
+  --color-primary: #1e90ff;
+  --color-bg: #f9fafb;
+  --color-text: #333;
+  --radius: 8px;
+  --transition: 0.3s ease;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ─── CONTAINER ─────────────────────────────────────────────────────── */
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ─── UNIFIED BUTTONS ───────────────────────────────────────────────── */
+
+button {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform var(--transition), filter var(--transition);
+}
+button:hover {
+  transform: translateY(-2px);
+  filter: brightness(0.9);
+}
+/* ─── NAVIGATION ─────────────────────────────────────────────────────── */
+
+/* flex-center the menu, space out the links */
+.nav {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;      /* about 20px between items */
+  margin-bottom: 2rem;
+}
+
+/* style each link */
+.nav-link {
+  font-size: 1.25rem;                /* 20px */
+  color: var(--color-text);          /* from your :root palette */
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.nav-link:hover {
+  color: var(--color-primary);
+}
