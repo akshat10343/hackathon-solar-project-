@@ -1,22 +1,17 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 function HomePage() {
   return (
     <div style={styles.container}>
-      <nav style={styles.navbar}>
-        <h1 style={styles.logo}>SolarSave</h1>
-        <ul style={styles.navLinks}>
-          <li><Link to="/" style={styles.link}>Home</Link></li>
-          <li><Link to="/features" style={styles.link}>Features</Link></li>
-          <li><Link to="/about" style={styles.link}>About Us</Link></li>
-          <li><Link to="/contact" style={styles.link}>Contact</Link></li>
-        </ul>
-      </nav>
       <div style={styles.content}>
         <h2 style={styles.heading}>Harness the Power of the Sun</h2>
-        <p style={styles.subheading}>Calculate your savings and reduce your carbon footprint with SolarSave.</p>
-        <Link to="/calculate" style={styles.ctaButton}>Get Started</Link>
+        <p style={styles.subheading}>
+          Calculate your savings and reduce your carbon footprint with SolarSave.
+        </p>
+        <Link to="/solar" style={styles.ctaButton}>
+          Get Started
+        </Link>
       </div>
     </div>
   );
@@ -24,51 +19,37 @@ function HomePage() {
 
 const styles = {
   container: {
-    minHeight: '100vh',
-    background: 'linear-gradient(to right, #fceabb, #f8b500)',
-    color: '#333',
-    fontFamily: 'Arial, sans-serif',
-  },
-  navbar: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: '1rem 2rem',
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-  },
-  logo: {
-    fontSize: '1.5rem',
-    fontWeight: 'bold',
-  },
-  navLinks: {
-    listStyle: 'none',
-    display: 'flex',
-    gap: '1rem',
-  },
-  link: {
-    textDecoration: 'none',
-    color: '#333',
-    fontWeight: 'bold',
+    minHeight: "90vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+    padding: "2rem",
+    color: "#333",
   },
   content: {
-    textAlign: 'center',
-    padding: '4rem 2rem',
+    backgroundColor: "rgba(255,255,255,0.85)",
+    padding: "3rem",
+    borderRadius: "10px",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
   },
   heading: {
-    fontSize: '2.5rem',
-    marginBottom: '1rem',
+    fontSize: "2.5rem",
+    marginBottom: "1rem",
   },
   subheading: {
-    fontSize: '1.25rem',
-    marginBottom: '2rem',
+    fontSize: "1.25rem",
+    marginBottom: "2rem",
   },
   ctaButton: {
-    padding: '0.75rem 1.5rem',
-    backgroundColor: '#ff9900',
-    color: '#fff',
-    textDecoration: 'none',
-    borderRadius: '5px',
-    fontWeight: 'bold',
+    padding: "0.75rem 1.5rem",
+    backgroundColor: "#ff9900",
+    color: "white",
+    textDecoration: "none",
+    borderRadius: "8px",
+    fontSize: "1.1rem",
+    fontWeight: "bold",
   },
 };
 
