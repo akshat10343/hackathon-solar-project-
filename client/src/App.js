@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import HomePage from "./HomePage";
 import SolarSavePage from "./SolarSavePage";
+import DashboardPage from "./DashboardPage";
+import './index.css';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -14,12 +16,14 @@ function App() {
           <ul style={styles.navLinks}>
             <li><Link to="/" style={styles.link}>Home</Link></li>
             <li><Link to="/solar" style={styles.link}>Solar Calculator</Link></li>
+            <li><Link to="/dashboard" style={styles.link}>Dashboard</Link></li>
           </ul>
         </nav>
 
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/solar" element={<SolarSavePage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
         </Routes>
 
         <ToastContainer />
