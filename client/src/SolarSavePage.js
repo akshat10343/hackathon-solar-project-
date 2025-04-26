@@ -287,10 +287,10 @@ const styles = {
   },
   resultBox: {
     marginTop: "2rem",
-    backgroundColor: "white",
+    backgroundColor: "#FCE5AE",
     padding: "2rem",
     borderRadius: "10px",
-    boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+    boxShadow: "1px 4px 15px rgba(0, 0, 0, 0.1)",
     maxWidth: "600px",
     margin: "2rem auto",
   },
