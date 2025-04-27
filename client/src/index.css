@@ -31,16 +31,39 @@ code {
 
 .cards-container {
   display: flex;
-  justify-content: space-between;
+  gap: 1.5rem; /* optional: adds nice space between chart and cards */
+  /* justify-content: space-between; */
   margin-bottom: 20px;
 }
 
-.card {
-  background-color: #f0f4f8;
-  padding: 20px;
-  border-radius: 8px;
-  width: 30%;
+.fixed-container {
+  flex-basis:content;
+  height: fit-content;
+}
+.dynamic-container {
+  flex-grow: 1;
+  height: fit-content;
+}
+
+.cards-grid {
+  flex: 1;             /* 1 part */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: min-content;
+  gap: 16px;           /* space between cards */
+}
+
+/* Small variant for those 4 info cards */
+.card--small {
+  padding: 8px;
+  font-size: 0.875rem; /* 14px */
   text-align: center;
+  height: 150px;       /* Set height to half of the chart (300px) */
+}
+
+/* Spacing between cards */
+.card--small:not(:last-child) {
+  margin-bottom: -15px; /* Add spacing between cards */
 }
 
 .card h3 {
@@ -64,6 +87,16 @@ code {
   border-radius: 8px;
   padding: 20px;
   margin: 20px;
+  text-align: center;
+  border: 3px solid transparent;          /* start transparent */
+  border-image-slice: 1;                   /* tell it to use the full gradient */
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  /* Gradient effect using box-shadow */
+  box-shadow: 0 0 0 6px rgba(255, 69, 0, 0.7), /* Fire color */
+              0 0 0 10px rgba(255, 140, 0, 0.5); /* Orange color */
 }
 
 .card-header {

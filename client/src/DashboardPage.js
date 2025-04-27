@@ -14,57 +14,42 @@ const data = [
 
 const DashboardPage = () => {
   return (
-    <div className="dashboard-container">
-      <div className="header">
-        <h1>Solar Dashboard</h1>
-      </div>
-
-      <div className="cards-container">
+<div className="cards-container">
+    <div className="fixed-container">
         <Card title="Solar Power Output">
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="power" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
+        <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="power" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
         </Card>
-
-        <Card title="Energy Usage">
-          <p>8.1 kWh</p>
-        </Card>
-
-        <Card title="Solar Efficiency">
-          <p>85%</p>
-        </Card>
+    </div>
+    <div className="cards-grid">
+      <div className="card card--small">
+        <strong>Energy Usage</strong><br/>
+        8.1 kWh
       </div>
-      
-      <div className="cards-container2">
-        <Card title="Solar Power Output">
-          <ResponsiveContainer width="100%" height={400}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="power" stroke="#8884d8" />
-            </LineChart>
-          </ResponsiveContainer>
-        </Card>
-
-        <Card title="Energy Usage">
-          <p>8.1 kWh</p>
-        </Card>
-
-        <Card title="Solar Efficiency">
-          <p>85%</p>
-        </Card>
+      <div className="card card--small">
+        <strong>Solar Efficiency</strong><br/>
+        85%
+      </div>
+      <div className="card card--small">
+        <strong>Today vs Yesterday</strong><br/>
+        +12% 📈
+      </div>
+      <div className="card card--small">
+        <strong>System Status</strong><br/>
+        ✅ Operational
       </div>
     </div>
+</div>
+
+
   );
 };
 
