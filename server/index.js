@@ -105,6 +105,7 @@ app.post("/solar", async (req, res) => {
       location: resolvedLocation,
       lat: latitude,
       lon: longitude,
+      stateCode: stateCode,
       systemSizeKW: userSystemSizeKW,
       avgSunHoursPerDay,
       estimatedSavingsPerYear: `$${savingsPerYear}`,
