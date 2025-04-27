@@ -66,13 +66,23 @@ app.post("/solar", async (req, res) => {
       resolvedLocation = result.formatted || location;
     }
 
-    if (!stateCode && lat && lon) {
+    if (lat && lon) {
       const reverseGeocodeUrl = `https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${openCageKey}`;
       const reverseGeoResponse = await axios.get(reverseGeocodeUrl);
-      if (reverseGeoResponse.data.results.length) {
-        stateCode = reverseGeoResponse.data.results[0].components.state_code;
+    
+      if (!reverseGeoResponse.data.results.length) {
+        return res.status(400).json({ error: "Failed to resolve location from coordinates." });
       }
+    
+      const result = reverseGeoResponse.data.results[0];
+      stateCode = result.components.state_code || null;
+    
+      const city = result.components.city || result.components.town || result.components.village || result.components.county || "Unknown City";
+      const state = stateCode || "Unknown State";
+    
+      resolvedLocation = `${city}, ${state}`;
     }
+    
 
     if (!stateCode || !stateElectricityRates[stateCode]) {
       return res.status(400).json({ error: "Unable to determine electricity rate for your location." });
@@ -105,6 +115,7 @@ app.post("/solar", async (req, res) => {
       location: resolvedLocation,
       lat: latitude,
       lon: longitude,
+      stateCode: stateCode,
       systemSizeKW: userSystemSizeKW,
       avgSunHoursPerDay,
       estimatedSavingsPerYear: `$${savingsPerYear}`,

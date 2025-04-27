@@ -67,12 +67,19 @@ const solarProviders = {
   ],
 };
 
-function SolarProvidersCard({ state }) {
-  const list = solarProviders[state] || [];
+function SolarProvidersCard({ locationState }) {
+  // Default to Washington
+  let selectedState = "WA";
+
+  if (locationState && locationState.toUpperCase() === "CA") {
+    selectedState = "CA"; // Switch to California if detected
+  }
+
+  const list = solarProviders[selectedState] || [];
 
   return (
     <Card>
-      <h3 style={{textDecoration: "underline", fontSize:'1.2rem'}}>Solar Providers in {state}</h3>
+      <h3 style={{textDecoration: "underline", fontSize:'1.2rem'}}>Solar Providers in {selectedState}</h3>
       {list.map((prov, i) => (
         <div key={i}>
           <p style={{fontSize: "1.2rem"}}>{prov.name}: {prov.description}</p>
@@ -85,12 +92,20 @@ function SolarProvidersCard({ state }) {
   );
 }
 
-function SolarIncentivesCard({ state }) {
-  const incentives = solarIncentives[state] || [];
+
+function SolarIncentivesCard({ locationState }) {
+  // Default to Washington
+  let selectedState = "WA";
+
+  if (locationState && locationState.toUpperCase() === "CA") {
+    selectedState = "CA"; // Switch to California if state is CA
+  }
+
+  const incentives = solarIncentives[selectedState] || [];
 
   return (
     <Card>
-      <h3 style={{textDecoration: "underline", fontSize:'1.2rem'}}>Local Solar Incentives for {state}</h3>
+      <h3 style={{textDecoration: "underline", fontSize:'1.2rem'}}>Local Solar Incentives for {selectedState}</h3>
       {incentives.map((incentive, index) => (
         <div key={index}>
           <p style={{fontSize: "1.2rem"}}>{incentive.title}: {incentive.description}</p>
@@ -102,6 +117,7 @@ function SolarIncentivesCard({ state }) {
     </Card>
   );
 }
+
 
 const DashboardPage = () => {
   const location = useLocation();
@@ -196,10 +212,10 @@ const graphData = Object.keys(monthlyCostMultipliers).map((month) => {
 
       <div className="cards-container">
         <div className="graph-container">
-          <SolarIncentivesCard state="WA" /> {/* you can make this dynamic too later! */}
+        <SolarIncentivesCard locationState={solarData?.stateCode} />{/* you can make this dynamic too later! */}
         </div>
         <div className="graph-container">
-          <SolarProvidersCard state="WA" /> {/* make dynamic if user location is available */}
+        <SolarProvidersCard locationState={solarData?.stateCode} />        {/* make dynamic if user location is available */}
         </div>
       </div>
     </div>
