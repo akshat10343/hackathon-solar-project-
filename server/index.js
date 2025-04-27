@@ -1,9 +1,12 @@
 const express = require("express");
 const cors = require("cors");
-require("dotenv").config();
+const axios = require("axios");
+const fs = require('fs');
 const path = require('path');
-const app = express();
+require("dotenv").config();
 
+
+const app = express();
 app.use(cors());
 app.use(express.json());
 
@@ -12,8 +15,6 @@ const PORT = process.env.PORT || 5001;
 app.get("/", (req, res) => {
   res.send("SolarSave Backend is running!");
 });
-
-const axios = require("axios");
 
 const stateElectricityRates = {
   AL: 0.14, AK: 0.22, AZ: 0.13, AR: 0.11, CA: 0.28, 

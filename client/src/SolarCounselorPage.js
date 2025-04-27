@@ -82,7 +82,7 @@ function SolarCounselorPage() {
         <button type="submit" style={styles.button}>Ask Counselor</button>
       </form>
 
-      {(isThinking || displayedResponse) && (
+      {(isThinking || isTyping || fullResponse) && (
         <div style={styles.responseBox}>
           {isThinking ? (
             <p><em>Solar Counselor is typing...</em> 🌞⌛</p>
