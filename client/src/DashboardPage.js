@@ -1,15 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import Card from './Card'; // Import the Card component
-
-const data = [
-  { name: 'January', withoutSolar: 240, withSolar: 30 },
-  { name: 'February', withoutSolar: 225, withSolar: 28 },
-  { name: 'March', withoutSolar: 195, withSolar: 20 },
-  { name: 'April', withoutSolar: 180, withSolar: 12 },
-  { name: 'May', withoutSolar: 160, withSolar: 8 },
-  { name: 'June', withoutSolar: 170, withSolar: 7 },
-];
+import { useLocation } from "react-router-dom";
+import Card from './Card'; // Make sure you have a Card component!
 
 const solarIncentives = {
   WA: [
@@ -83,12 +75,8 @@ function SolarProvidersCard({ state }) {
       <h3 style={{textDecoration: "underline", fontSize:'1.2rem'}}>Solar Providers in {state}</h3>
       {list.map((prov, i) => (
         <div key={i}>
-          <p className='incentive-item' style={{fontSize: "1.2rem"}}>{prov.name}: {prov.description}</p>
-          <a
-            href={prov.link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <p style={{fontSize: "1.2rem"}}>{prov.name}: {prov.description}</p>
+          <a href={prov.link} target="_blank" rel="noopener noreferrer">
             Visit {prov.name}
           </a>
         </div>
@@ -98,16 +86,16 @@ function SolarProvidersCard({ state }) {
 }
 
 function SolarIncentivesCard({ state }) {
-  const incentives = solarIncentives[state];
+  const incentives = solarIncentives[state] || [];
 
   return (
     <Card>
       <h3 style={{textDecoration: "underline", fontSize:'1.2rem'}}>Local Solar Incentives for {state}</h3>
       {incentives.map((incentive, index) => (
         <div key={index}>
-          <p className="incentive-item" style={{fontSize: "1.2rem"}}>{incentive.title + ": " + incentive.description}</p>
+          <p style={{fontSize: "1.2rem"}}>{incentive.title}: {incentive.description}</p>
           <a href={incentive.link} target="_blank" rel="noopener noreferrer">
-            Learn More about the {incentive.title}
+            Learn more
           </a>
         </div>
       ))}
@@ -116,15 +104,66 @@ function SolarIncentivesCard({ state }) {
 }
 
 const DashboardPage = () => {
+  const location = useLocation();
+  const solarData = location.state?.solarData;
+
+  // Safety check
+  if (!solarData) {
+    return (
+      <div style={{ textAlign: 'center', marginTop: '5rem' }}>
+        <h2>No solar data found! Please go back and calculate first.</h2>
+      </div>
+    );
+  }
+
+  // Multiplier for real-world month differences
+const monthlyCostMultipliers = {
+  January: 1.10,
+  February: 1.05,
+  March: 0.95,
+  April: 0.90,
+  May: 0.95,
+  June: 1.10,
+  July: 1.20,
+  August: 1.20,
+  September: 1.05,
+  October: 0.95,
+  November: 1.00,
+  December: 1.10,
+};
+
+// Base average monthly cost
+const averageMonthlyCostWithoutSolar = 137.20;
+
+// Calculate user's monthly solar savings
+const monthlySavings = parseFloat(
+  solarData.estimatedSavingsPerYear.replace('$', '')
+) / 12;
+
+// 📈 Generate graph data dynamically
+const graphData = Object.keys(monthlyCostMultipliers).map((month) => {
+  const withoutSolar = averageMonthlyCostWithoutSolar * monthlyCostMultipliers[month];
+  const withSolar = withoutSolar - monthlySavings;
+  
+  return {
+    name: month,
+    withoutSolar: parseFloat(withoutSolar.toFixed(2)),
+    withSolar: parseFloat(withSolar.toFixed(2)),
+  };
+});
+
+
+
+
   return (
-<div>
-<div className="cards-container">
-    <div className="graph-container">
-        <Card title="Estimated Energy Cost per month">
-        <ResponsiveContainer width="100%" height={300}>
-              <LineChart data={data}>
+    <div>
+      <div className="cards-container">
+        <div className="graph-container">
+          <Card title="Estimated Energy Cost per Month">
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={graphData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
+                <XAxis dataKey="name" interval={0} tick={{ fontSize: 10 }}/>
                 <YAxis />
                 <Tooltip />
                 <Legend />
@@ -132,38 +171,38 @@ const DashboardPage = () => {
                 <Line type="monotone" dataKey="withSolar" stroke="#46fa05" />
               </LineChart>
             </ResponsiveContainer>
-        </Card>
-    </div>
-    <div className="cards-grid">
-      <div className="card card--small" styles={{fontSize: '2rem'}}>
-        <strong>Estimated Annual Savings</strong><br/><br/>
-        <p>$968 💸</p>
-      </div>
-      <div className="card card--small">
-        <strong>Estimated energy sales each month</strong><br/><br/>
-        <p>$40 💸</p>
-      </div>
-      <div className="card card--small">
-        <strong>Solar Energy Potential</strong><br/><br/>
-        <p>4511 kWh ⚡</p>
-      </div>
-      <div className="card card--small">
-        <strong>CO₂ Offset (This Month)</strong><br/><br/>
-        <p>0.75 tons of CO₂ 🌏</p>
-      </div>
-    </div>
-</div>
-<div className="cards-container">
-    <div className="graph-container">
-        <SolarIncentivesCard state="WA" />
-    </div>
-    <div className="graph-container">
-      <SolarProvidersCard state="WA" />
-    </div>
-</div>
-</div>
+          </Card>
+        </div>
 
+        <div className="cards-grid">
+          <div className="card card--small">
+            <strong>Estimated Annual Savings</strong><br/><br/>
+            <p>{solarData.estimatedSavingsPerYear} 💸</p>
+          </div>
+          <div className="card card--small">
+            <strong>Estimated Energy Sales Each Month</strong><br/><br/>
+            <p>${monthlySavings.toFixed(2)} 💸</p>
+          </div>
+          <div className="card card--small">
+            <strong>Solar Energy Potential</strong><br/><br/>
+            <p>{(solarData.systemSizeKW * solarData.avgSunHoursPerDay * 30 * 0.8).toFixed(0)} kWh ⚡</p>
+          </div>
+          <div className="card card--small">
+            <strong>CO₂ Offset (This Month)</strong><br/><br/>
+            <p>{(parseFloat(solarData.co2OffsetPerYear.replace(' kg of CO₂ saved per year', '')) / 12 / 1000).toFixed(2)} tons 🌏</p>
+          </div>
+        </div>
+      </div>
 
+      <div className="cards-container">
+        <div className="graph-container">
+          <SolarIncentivesCard state="WA" /> {/* you can make this dynamic too later! */}
+        </div>
+        <div className="graph-container">
+          <SolarProvidersCard state="WA" /> {/* make dynamic if user location is available */}
+        </div>
+      </div>
+    </div>
   );
 };
 

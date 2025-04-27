@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import jsPDF from 'jspdf';
+import { useNavigate } from "react-router-dom";
+
 
 function SolarSavePage() {
   const [location, setLocation] = useState("");
@@ -11,6 +13,15 @@ function SolarSavePage() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [graphData, setGraphData] = useState([]);
+  const navigate = useNavigate();
+
+  const goToDashboard = () => {
+    if (solarData) {
+      navigate('/dashboard', { state: { solarData } });
+    } else {
+      console.error("No solar data available yet.");
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -220,6 +231,12 @@ function SolarSavePage() {
               📄 Download My Solar Report
             </button>
           </div>
+          {solarData && (
+            <button onClick={goToDashboard} style={styles.button}>
+              View Full Solar Dashboard ➡️
+            </button>
+          )}
+
         </div>
       )}
     </div>
