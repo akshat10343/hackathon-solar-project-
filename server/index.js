@@ -118,6 +118,39 @@ app.post("/solar", async (req, res) => {
   }
 });
 
+// Static Solar Counselor (using local file)
+const counselorDataPath = path.join(__dirname, 'solar_counselor_data.json');
+
+app.post("/ask-counselor", async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    if (!question) {
+      return res.status(400).json({ error: "Question is required." });
+    }
+
+    const rawData = fs.readFileSync(counselorDataPath);
+    const counselorData = JSON.parse(rawData);
+
+    const simplifiedQuestion = question.toLowerCase().replace(/[^\w\s]/gi, "").trim();
+    const response = counselorData[simplifiedQuestion];
+
+    // Add a delay function
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Wait for 1 second before responding
+    await delay(1000);
+
+    if (response) {
+      res.json({ response });
+    } else {
+      res.json({ response: "I don't have the answer for that right now. Please try asking again later!" });
+    }
+  } catch (error) {
+    console.error("Error in /ask-counselor route:", error.message);
+    res.status(500).json({ error: "Failed to load Solar Counselor data." });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);

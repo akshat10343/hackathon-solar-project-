@@ -7,6 +7,8 @@ import './index.css';
 import { ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import AboutPage from "./AboutPage";
+import SolarCounselorPage from "./SolarCounselorPage";
+
 
 
 function App() {
@@ -18,13 +20,15 @@ function App() {
         <ul style={styles.navLinks}>
           <li><Link to="/" style={styles.link}>Home</Link></li>
           <li><Link to="/solar" style={styles.link}>Solar Calculator</Link></li>
-            <li><Link to="/dashboard" style={styles.link}>Dashboard</Link></li>
+          <li><Link to="/dashboard" style={styles.link}>Dashboard</Link></li>
+          <li><Link to="/counselor" style={styles.link}>Solar Counselor</Link></li>
           <li><Link to="/about" style={styles.link}>About Us</Link></li>
         </ul>
       </nav>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/solar" element={<SolarSavePage />} />
+          <Route path="/counselor" element={<SolarCounselorPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/about" element={<AboutPage />} />
         </Routes>
