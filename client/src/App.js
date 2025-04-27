@@ -42,7 +42,7 @@ function App() {
 const styles = {
   container: {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    background: "linear-gradient(to top right,rgb(0, 0, 0) 40%, #f8b500) 80%",
     minHeight: "100vh",
   },
   navbar: {
@@ -53,12 +53,13 @@ const styles = {
     justifyContent: "space-between",
     alignItems: "center",
     padding: "1rem 2rem",
-    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    background: "linear-gradient(to bottom right,rgb(0, 0, 0) 40%, #f8b500) 100%",
     boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
   },  
   logo: {
     fontSize: "1.5rem",
     fontWeight: "bold",
+    color: "white"
   },
   navLinks: {
     listStyle: "none",
@@ -69,7 +70,7 @@ const styles = {
   },
   link: {
     textDecoration: "none",
-    color: "#333",
+    color: "white",
     fontWeight: "bold",
     fontSize: "1.1rem"
   }

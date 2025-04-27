@@ -38,7 +38,7 @@ function AboutPage() {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    background: "linear-gradient(to top right,rgb(0, 0, 0) 40%, #f8b500) 80%",
     padding: "3rem",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     textAlign: "center",
@@ -46,7 +46,7 @@ const styles = {
   title: {
     fontSize: "2.5rem",
     marginBottom: "2rem",
-    color: "#333",
+    color: "white",
   },
   section: {
     marginBottom: "2.5rem",
@@ -56,18 +56,18 @@ const styles = {
   },
   sectionTitle: {
     fontSize: "1.8rem",
-    color: "#ff9900",
+    color: "white",
     marginBottom: "0.8rem",
   },
   mission: {
     fontSize: "1.2rem",
-    color: "#555",
+    color: "white",
     lineHeight: "1.7",
   },
   footer: {
     marginTop: "3rem",
     fontSize: "1rem",
-    color: "#777",
+    color: "#ff9900",
   },
 };
 

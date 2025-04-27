@@ -13,7 +13,7 @@ function SolarCounselorPage() {
     "What are the solar incentives in California?",
     "Do solar panels work on cloudy days?",
     "Can solar panels eliminate my electric bill?",
-    "what are the disadvantages of solar energy?",
+    "What are the disadvantages of solar energy?",
   ];
 
   const handleSuggestedClick = (question) => {
@@ -40,13 +40,14 @@ function SolarCounselorPage() {
       });
 
       const data = await res.json();
+      const randomDelay = Math.random() * 1000 + 500; // 0.5s - 1.5s random delay
 
       if (data.response) {
         setTimeout(() => {
           setFullResponse(data.response);
           setIsThinking(false);
           setIsTyping(true);
-        }, 1000);
+        }, randomDelay);
       } else {
         setFullResponse("I don't have the answer for that right now. Please try asking again later! 🌥️");
         setIsThinking(false);
@@ -58,7 +59,7 @@ function SolarCounselorPage() {
     }
   };
 
-  // Typing letter-by-letter
+  // Typing animation
   useEffect(() => {
     if (!isTyping || !fullResponse) return;
 
@@ -118,13 +119,11 @@ function SolarCounselorPage() {
         <h3 style={styles.suggestedTitle}>Suggested Questions:</h3>
         <div style={styles.suggestedList}>
           {suggestedQuestions.map((q, index) => (
-            <button 
-              key={index}
-              style={styles.suggestedButton}
-              onClick={() => handleSuggestedClick(q)}
-            >
-              {q}
-            </button>
+            <HoverButton 
+              key={index} 
+              text={q} 
+              onClick={() => handleSuggestedClick(q)} 
+            />
           ))}
         </div>
       </div>
@@ -142,10 +141,32 @@ function SolarCounselorPage() {
   );
 }
 
+// HoverButton Component
+function HoverButton({ text, onClick }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <button
+      style={{
+        ...styles.suggestedButton,
+        boxShadow: isHovered
+          ? "0px 4px 12px rgba(248, 181, 0, 0.6)"
+          : "0 0 0px rgba(0,0,0,0)",
+        transform: isHovered ? "scale(1.05)" : "scale(1)",
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  );
+}
+
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    background: "linear-gradient(to top right,rgb(0, 0, 0) 40%, #f8b500) 80%",
     padding: "3rem",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     textAlign: "center",
@@ -153,12 +174,12 @@ const styles = {
   title: {
     fontSize: "2.5rem",
     marginBottom: "1rem",
-    color: "#333",
+    color: "white",
   },
   description: {
     fontSize: "1.2rem",
     marginBottom: "2rem",
-    color: "#555",
+    color: "white",
     maxWidth: "600px",
     marginLeft: "auto",
     marginRight: "auto",
@@ -177,7 +198,7 @@ const styles = {
   button: {
     padding: "10px 20px",
     fontSize: "16px",
-    backgroundColor: "#007bff",
+    backgroundColor: "#ff9900",
     color: "white",
     border: "none",
     borderRadius: "5px",
@@ -188,7 +209,7 @@ const styles = {
   },
   suggestedTitle: {
     fontSize: "1.5rem",
-    color: "#444",
+    color: "white",
     marginBottom: "1rem",
   },
   suggestedList: {
@@ -199,13 +220,14 @@ const styles = {
   },
   suggestedButton: {
     padding: "8px 12px",
-    backgroundColor: "#f8b500",
+    backgroundColor: "#ff9900",
     color: "#fff",
     border: "none",
     borderRadius: "20px",
     cursor: "pointer",
     fontSize: "0.9rem",
-    transition: "background-color 0.3s",
+    transition: "all 0.3s ease",
+    boxShadow: "0 0 0px rgba(0,0,0,0)",
   },
   responseBox: {
     marginTop: "2rem",

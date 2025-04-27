@@ -20,7 +20,7 @@ function HomePage() {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "linear-gradient(to left, #fceabb, #f8b500)",
+    background: "black",
     padding: "3rem",
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     textAlign: "center",
@@ -44,10 +44,12 @@ const styles = {
   heading: {
     fontSize: "2.5rem",
     marginBottom: "1rem",
+    color: "white"
   },
   subheading: {
     fontSize: "1.25rem",
-    marginBottom: "2rem",
+    marginBottom: "2rem",    
+    color: "white"
   },
   ctaButton: {
     padding: "0.75rem 1.5rem",
