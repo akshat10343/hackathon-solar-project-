@@ -36,12 +36,8 @@ code {
   margin-bottom: 20px;
 }
 
-.fixed-container {
-  flex-basis:content;
-  height: fit-content;
-}
-.dynamic-container {
-  flex-grow: 1;
+.graph-container {
+  flex: 0 0 50%;          /* don’t grow or shrink—just take 50% */
   height: fit-content;
 }
 
@@ -56,9 +52,13 @@ code {
 /* Small variant for those 4 info cards */
 .card--small {
   padding: 8px;
-  font-size: 0.875rem; /* 14px */
+  font-size: 1.0rem; /* 14px */
   text-align: center;
   height: 150px;       /* Set height to half of the chart (300px) */
+}
+
+.card--small strong {
+  font-size: 1.4rem;
 }
 
 /* Spacing between cards */
@@ -108,3 +108,6 @@ code {
   font-size: 1.2rem;
 }
 
+.incentive-item {
+  text-align: left;
+}
